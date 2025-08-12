@@ -155,6 +155,90 @@
             color: var(--error-color);
             border: 1px solid #f5c6cb;
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background-color: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-icon svg {
+            width: 40px;
+            height: 40px;
+            color: #4caf50;
+        }
+
+        .modal h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
         
         @media (max-width: 576px) {
             .container {
@@ -264,7 +348,45 @@
         </form>
     </div>
 
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            <h3>Success!</h3>
+            <p id="successMessage"></p>
+            <button onclick="closeModal()" class="modal-close-btn">OK</button>
+        </div>
+    </div>
+
     <script>
+        // Modal functions
+        function showModal(message) {
+            const modal = document.getElementById('successModal');
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = message;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('settlementForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -324,14 +446,20 @@
         });
         
         function showAlert(message, type) {
-            alertBox.textContent = message;
-            alertBox.className = `alert alert-${type}`;
-            alertBox.style.display = 'block';
-            
-            // Hide alert after 5 seconds
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
+            if (type === 'success') {
+                // Show styled modal for success messages
+                showModal(message);
+            } else {
+                // Keep the existing behavior for error messages
+                alertBox.textContent = message;
+                alertBox.className = `alert alert-${type}`;
+                alertBox.style.display = 'block';
+                
+                // Hide alert after 5 seconds
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
         }
     });
     </script>
