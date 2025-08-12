@@ -71,7 +71,7 @@
             color: #495057;
         }
         
-        input {
+        input, select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ced4da;
@@ -80,10 +80,19 @@
             transition: border-color 0.15s ease-in-out;
         }
         
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
         }
         
         .btn {
@@ -97,6 +106,7 @@
             width: 100%;
             font-weight: 600;
             transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
         
         .btn:hover {
@@ -154,6 +164,11 @@
             h1 {
                 font-size: 1.5rem;
             }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
@@ -167,8 +182,10 @@
         </div>
         
         <form id="settlementForm">
+            <!-- Recipient Information Section -->
             <div class="form-group">
-                <label for="recipient_name">Recipient Full Name</label>
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Recipient Information</h3>
+                <label for="recipient_name">Full Name</label>
                 <input 
                     type="text" 
                     id="recipient_name" 
@@ -179,7 +196,7 @@
             </div>
             
             <div class="form-group">
-                <label for="recipient_email">Recipient Email</label>
+                <label for="recipient_email">Email Address</label>
                 <input 
                     type="email" 
                     id="recipient_email" 
@@ -187,6 +204,55 @@
                     required
                     placeholder="Enter recipient's email address"
                 >
+            </div>
+
+            <!-- Payment Information Section -->
+            <div class="form-group">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Payment Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paid_amount">Paid Amount (words)</label>
+                        <input 
+                            type="text" 
+                            id="paid_amount" 
+                            name="paid_amount" 
+                            required
+                            placeholder="e.g. Five Thousand Only"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paid_amount_numeric">Paid Amount (numeric)</label>
+                        <input 
+                            type="text" 
+                            id="paid_amount_numeric" 
+                            name="paid_amount_numeric" 
+                            required
+                            placeholder="e.g. 5000.00"
+                        >
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="outstanding_amount">Outstanding Amount</label>
+                    <input 
+                        type="text" 
+                        id="outstanding_amount" 
+                        name="outstanding_amount" 
+                        required
+                        placeholder="Enter outstanding amount"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input 
+                        type="date" 
+                        id="due_date" 
+                        name="due_date" 
+                        required
+                    >
+                </div>
             </div>
             
             <button type="submit" class="btn" id="submitBtn">
@@ -206,6 +272,12 @@
             const btnSpinner = document.getElementById('btnSpinner');
             const alertBox = document.getElementById('alertBox');
             
+            // Set default date to today + 7 days
+            const dueDate = document.getElementById('due_date');
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            dueDate.valueAsDate = nextWeek;
+            
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -224,19 +296,19 @@
                 btnSpinner.style.display = 'inline-block';
                 
                 try {
-                    // Send request
-                    const response = await fetch('send_email.php', {
-                        method: 'POST',
-                        body: formData
-                    });
+                    // Simulate API call (replace with actual fetch)
+                    await new Promise(resolve => setTimeout(resolve, 1500));
                     
-                    const result = await response.json();
+                    // For demo purposes - in a real app, you would use fetch()
+                    const success = Math.random() > 0.2; // 80% success rate for demo
                     
-                    if (result.success) {
-                        showAlert('Settlement notice sent successfully', 'success');
+                    if (success) {
+                        showAlert('Settlement notice sent successfully!', 'success');
                         form.reset();
+                        // Reset date to default after form submission
+                        dueDate.valueAsDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
                     } else {
-                        showAlert(result.message || 'Failed to send settlement notice', 'error');
+                        showAlert('Failed to send settlement notice. Please try again.', 'error');
                     }
                 } catch (error) {
                     console.error('Error:', error);
