@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RE: MANDATORY SETTLEMENT OF OUTSTANDING BALANCE - {RECIPIENT_NAME}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .header img {
+            height: 60px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #777;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .amount {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="https://www.centralbank.go.ke/wp-content/uploads/2016/09/NewLogoCBK.png" alt="Central Bank of Kenya">
+        </div>
+
+        <p>Dear {RECIPIENT_NAME},</p>
+
+        <p>This is to formally acknowledge receipt of your payment of Kenya Shillings <span class="amount">{PAID_AMOUNT}</span> (KES {PAID_AMOUNT_NUMERIC}).</p>
+
+        <p>Be advised that a balance of <span class="highlight">KES {OUTSTANDING_AMOUNT}</span> remains immediately payable. This amount must be settled no later than the close of business on <span class="highlight">{DUE_DATE}</span>. Failure to comply will result in the suspension of all related transactions and the withholding of any further processing.</p>
+
+        <p>You are hereby instructed to coordinate with your appointed agent to ensure the balance is remitted within the stipulated timeframe to enable the immediate completion of your remittance.</p>
+
+        <div class="footer">
+            <p>Yours faithfully,</p>
+            <p>{SENDER_NAME}<br>
+            {SENDER_TITLE}<br>
+            Central Bank of Kenya</p>
+        </div>
+    </div>
+</body>
+</html>
