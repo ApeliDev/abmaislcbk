@@ -266,72 +266,74 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('settlementForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const btnSpinner = document.getElementById('btnSpinner');
-            const alertBox = document.getElementById('alertBox');
+        const form = document.getElementById('settlementForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const alertBox = document.getElementById('alertBox');
+        
+        // Set default date to today + 7 days
+        const dueDate = document.getElementById('due_date');
+        const today = new Date();
+        const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+        dueDate.valueAsDate = nextWeek;
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Set default date to today + 7 days
-            const dueDate = document.getElementById('due_date');
-            const today = new Date();
-            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-            dueDate.valueAsDate = nextWeek;
+            // Validate form
+            if (!form.checkValidity()) {
+                showAlert('Please fill in all required fields correctly', 'error');
+                return;
+            }
             
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Validate form
-                if (!form.checkValidity()) {
-                    showAlert('Please fill in all required fields correctly', 'error');
-                    return;
-                }
-                
-                // Prepare data
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = 'Sending...';
+            btnSpinner.style.display = 'inline-block';
+            
+            try {
+                // Prepare form data
                 const formData = new FormData(form);
                 
-                // Show loading state
-                submitBtn.disabled = true;
-                btnText.textContent = 'Sending...';
-                btnSpinner.style.display = 'inline-block';
+                // Send data to server
+                const response = await fetch('send_email.php', { 
+                    method: 'POST',
+                    body: formData
+                });
                 
-                try {
-                    // Simulate API call (replace with actual fetch)
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-                    
-                    // For demo purposes - in a real app, you would use fetch()
-                    const success = Math.random() > 0.2; // 80% success rate for demo
-                    
-                    if (success) {
-                        showAlert('Settlement notice sent successfully!', 'success');
-                        form.reset();
-                        // Reset date to default after form submission
-                        dueDate.valueAsDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-                    } else {
-                        showAlert('Failed to send settlement notice. Please try again.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    showAlert('An error occurred while sending the notice', 'error');
-                } finally {
-                    // Reset button state
-                    submitBtn.disabled = false;
-                    btnText.textContent = 'Send Settlement Notice';
-                    btnSpinner.style.display = 'none';
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert('Settlement notice sent successfully!', 'success');
+                    form.reset();
+                    // Reset date to default after form submission
+                    dueDate.valueAsDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+                } else {
+                    showAlert(result.message || 'Failed to send settlement notice', 'error');
                 }
-            });
-            
-            function showAlert(message, type) {
-                alertBox.textContent = message;
-                alertBox.className = `alert alert-${type}`;
-                alertBox.style.display = 'block';
-                
-                // Hide alert after 5 seconds
-                setTimeout(() => {
-                    alertBox.style.display = 'none';
-                }, 5000);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('An error occurred while sending the notice', 'error');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.textContent = 'Send Settlement Notice';
+                btnSpinner.style.display = 'none';
             }
         });
+        
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+    });
     </script>
 </body>
 </html>
