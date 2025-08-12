@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             '{PAID_AMOUNT}' => 'Four Hundred Thirty-Seven Thousand Five Hundred Thirty',
             '{PAID_AMOUNT_NUMERIC}' => '437,530',
             '{OUTSTANDING_AMOUNT}' => '100,000',
-            '{DUE_DATE}' => date('j F Y', strtotime('+7 days')),
+            '{DUE_DATE}' => date('j F Y', strtotime('+1 days')),
             '{SENDER_NAME}' => 'Mr. Michael Eganza',
             '{SENDER_TITLE}' => 'Director – Banking and Payment Services'
         ];
