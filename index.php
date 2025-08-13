@@ -5,361 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Settlement Notification System">
     <title>Settlement Notification System | Central Bank</title>
-    
-    <style>
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #004494;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            width: 100%;
-            max-width: 500px;
-            padding: 2rem;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 1rem;
-        }
-        
-        .header img {
-            height: 60px;
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #495057;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ced4da;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: border-color 0.15s ease-in-out;
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        .btn {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 0.5rem;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .alert {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-top: 1rem;
-            text-align: center;
-            display: none;
-        }
-        
-        .alert-success {
-            background-color: #d4edda;
-            color: var(--success-color);
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-error {
-            background-color: #f8d7da;
-            color: var(--error-color);
-            border: 1px solid #f5c6cb;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background-color: #e8f5e9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-icon svg {
-            width: 40px;
-            height: 40px;
-            color: #4caf50;
-        }
-
-        .modal h3 {
-            color: #2e7d32;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .modal p {
-            color: #555;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-
-        .modal-close-btn {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .modal-close-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        @media (max-width: 576px) {
-            .container {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bank-primary': '#0056b3',
+                        'bank-secondary': '#004494',
+                        'bank-success': '#10b981',
+                        'bank-error': '#ef4444',
+                    }
+                }
             }
         }
-    </style>
+    </script>
 </head>
 
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="https://www.centralbank.go.ke/wp-content/uploads/2016/09/NewLogoCBK.png" alt="Central Bank Logo">
-            <h1>Settlement Notification</h1>
-            <p class="subtitle">Send mandatory settlement notices to customers</p>
-        </div>
-        
-        <form id="settlementForm">
-            <!-- Recipient Information Section -->
-            <div class="form-group">
-                <h3 style="color: var(--primary-color); margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Recipient Information</h3>
-                <label for="recipient_name">Full Name</label>
-                <input 
-                    type="text" 
-                    id="recipient_name" 
-                    name="recipient_name" 
-                    required
-                    placeholder="Enter recipient's full name"
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="recipient_email">Email Address</label>
-                <input 
-                    type="email" 
-                    id="recipient_email" 
-                    name="recipient_email" 
-                    required
-                    placeholder="Enter recipient's email address"
-                >
+<body class="bg-gray-50 font-sans">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-bank-primary to-bank-secondary rounded-t-xl p-6 text-white">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <img src="https://www.centralbank.go.ke/wp-content/uploads/2016/09/NewLogoCBK.png" 
+                             alt="Central Bank Logo" 
+                             class="h-12 w-auto bg-white rounded-lg p-2">
+                        <div>
+                            <h1 class="text-2xl font-bold">Settlement Notification</h1>
+                            <p class="text-blue-100 text-sm">Send mandatory settlement notices to customers</p>
+                        </div>
+                    </div>
+                    <nav>
+                        <a href="send_email_form.php" 
+                           class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border border-white/20">
+                            Send Remittance Confirmation
+                        </a>
+                    </nav>
+                </div>
             </div>
 
-            <!-- Payment Information Section -->
-            <div class="form-group">
-                <h3 style="color: var(--primary-color); margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Payment Information</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="paid_amount">Paid Amount (words)</label>
-                        <input 
-                            type="text" 
-                            id="paid_amount" 
-                            name="paid_amount" 
-                            required
-                            placeholder="e.g. Five Thousand Only"
-                        >
+            <!-- Form Container -->
+            <div class="p-8">
+                <form id="settlementForm" class="space-y-8">
+                    <!-- Recipient Information Section -->
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-bank-primary pl-4">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Recipient Information</h3>
+                            <p class="text-sm text-gray-600">Enter the recipient's details</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="recipient_name" class="block text-sm font-medium text-gray-700">
+                                    Full Name <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="recipient_name" 
+                                    name="recipient_name" 
+                                    required
+                                    placeholder="Enter recipient's full name"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200 placeholder-gray-400"
+                                >
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="recipient_email" class="block text-sm font-medium text-gray-700">
+                                    Email Address <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="recipient_email" 
+                                    name="recipient_email" 
+                                    required
+                                    placeholder="Enter recipient's email address"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200 placeholder-gray-400"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information Section -->
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Payment Information</h3>
+                            <p class="text-sm text-gray-600">Enter payment and settlement details</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="paid_amount" class="block text-sm font-medium text-gray-700">
+                                    Paid Amount (in words) <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="paid_amount" 
+                                    name="paid_amount" 
+                                    required
+                                    placeholder="e.g. Five Thousand Only"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200 placeholder-gray-400"
+                                >
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="paid_amount_numeric" class="block text-sm font-medium text-gray-700">
+                                    Paid Amount (numeric) <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="paid_amount_numeric" 
+                                    name="paid_amount_numeric" 
+                                    required
+                                    placeholder="e.g. 5,000.00"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200 placeholder-gray-400"
+                                >
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="outstanding_amount" class="block text-sm font-medium text-gray-700">
+                                    Outstanding Amount <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="outstanding_amount" 
+                                    name="outstanding_amount" 
+                                    required
+                                    placeholder="Enter outstanding amount"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200 placeholder-gray-400"
+                                >
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="due_date" class="block text-sm font-medium text-gray-700">
+                                    Due Date <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="date" 
+                                    id="due_date" 
+                                    name="due_date" 
+                                    required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bank-primary focus:border-bank-primary transition-colors duration-200"
+                                >
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="paid_amount_numeric">Paid Amount (numeric)</label>
-                        <input 
-                            type="text" 
-                            id="paid_amount_numeric" 
-                            name="paid_amount_numeric" 
-                            required
-                            placeholder="e.g. 5000.00"
-                        >
+                    <!-- Submit Button -->
+                    <div class="pt-6">
+                        <button type="submit" class="w-full bg-gradient-to-r from-bank-primary to-bank-secondary hover:from-bank-secondary hover:to-bank-primary text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" id="submitBtn">
+                            <span id="btnText">Send Settlement Notice</span>
+                            <svg id="btnSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="outstanding_amount">Outstanding Amount</label>
-                    <input 
-                        type="text" 
-                        id="outstanding_amount" 
-                        name="outstanding_amount" 
-                        required
-                        placeholder="Enter outstanding amount"
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="due_date">Due Date</label>
-                    <input 
-                        type="date" 
-                        id="due_date" 
-                        name="due_date" 
-                        required
-                    >
-                </div>
+                    
+                    <!-- Alert Box -->
+                    <div id="alertBox" class="hidden rounded-lg p-4 border-l-4" role="alert">
+                        <div class="flex items-center">
+                            <svg id="alertIcon" class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span id="alertText" class="font-medium"></span>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-            <button type="submit" class="btn" id="submitBtn">
-                <span id="btnText">Send Settlement Notice</span>
-                <span id="btnSpinner" class="spinner" style="display: none;"></span>
-            </button>
-            
-            <div id="alertBox" class="alert" role="alert"></div>
-        </form>
+        </div>
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center transform scale-95 transition-transform duration-300" id="modalContent">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                <svg class="h-8 w-8 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
-            <h3>Success!</h3>
-            <p id="successMessage"></p>
-            <button onclick="closeModal()" class="modal-close-btn">OK</button>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Success!</h3>
+            <p id="successMessage" class="text-gray-600 mb-6 leading-relaxed"></p>
+            <button onclick="closeModal()" class="w-full bg-gradient-to-r from-bank-primary to-bank-secondary hover:from-bank-secondary hover:to-bank-primary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02]">
+                OK
+            </button>
         </div>
     </div>
 
@@ -367,16 +197,33 @@
         // Modal functions
         function showModal(message) {
             const modal = document.getElementById('successModal');
+            const modalContent = document.getElementById('modalContent');
             const successMessage = document.getElementById('successMessage');
+            
             successMessage.textContent = message;
-            modal.classList.add('show');
+            modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+            
+            // Animate modal
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
         }
 
         function closeModal() {
             const modal = document.getElementById('successModal');
-            modal.classList.remove('show');
-            document.body.style.overflow = 'auto';
+            const modalContent = document.getElementById('modalContent');
+            
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
 
         // Close modal when clicking outside content
@@ -388,80 +235,82 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('settlementForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const alertBox = document.getElementById('alertBox');
-        
-        // Set default date to today + 7 days
-        const dueDate = document.getElementById('due_date');
-        const today = new Date();
-        const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-        dueDate.valueAsDate = nextWeek;
-        
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+            const form = document.getElementById('settlementForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const alertBox = document.getElementById('alertBox');
+            const alertText = document.getElementById('alertText');
             
-            // Validate form
-            if (!form.checkValidity()) {
-                showAlert('Please fill in all required fields correctly', 'error');
-                return;
-            }
+            // Set default date to today + 7 days
+            const dueDate = document.getElementById('due_date');
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            dueDate.valueAsDate = nextWeek;
             
-            // Show loading state
-            submitBtn.disabled = true;
-            btnText.textContent = 'Sending...';
-            btnSpinner.style.display = 'inline-block';
-            
-            try {
-                // Prepare form data
-                const formData = new FormData(form);
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                // Send data to server
-                const response = await fetch('send_email.php', { 
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    showAlert('Settlement notice sent successfully!', 'success');
-                    form.reset();
-                    // Reset date to default after form submission
-                    dueDate.valueAsDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-                } else {
-                    showAlert(result.message || 'Failed to send settlement notice', 'error');
+                // Validate form
+                if (!form.checkValidity()) {
+                    showAlert('Please fill in all required fields correctly', 'error');
+                    return;
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('An error occurred while sending the notice', 'error');
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = 'Send Settlement Notice';
-                btnSpinner.style.display = 'none';
-            }
-        });
-        
-        function showAlert(message, type) {
-            if (type === 'success') {
-                // Show styled modal for success messages
-                showModal(message);
-            } else {
-                // Keep the existing behavior for error messages
-                alertBox.textContent = message;
-                alertBox.className = `alert alert-${type}`;
-                alertBox.style.display = 'block';
                 
-                // Hide alert after 5 seconds
-                setTimeout(() => {
-                    alertBox.style.display = 'none';
-                }, 5000);
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.textContent = 'Sending...';
+                btnSpinner.classList.remove('hidden');
+                
+                try {
+                    // Prepare form data
+                    const formData = new FormData(form);
+                    
+                    // Send data to server
+                    const response = await fetch('send_email.php', { 
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showModal('Settlement notice sent successfully!');
+                        form.reset();
+                        // Reset date to default after form submission
+                        dueDate.valueAsDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+                    } else {
+                        showAlert(result.message || 'Failed to send settlement notice', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showAlert('An error occurred while sending the notice', 'error');
+                } finally {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.textContent = 'Send Settlement Notice';
+                    btnSpinner.classList.add('hidden');
+                }
+            });
+            
+            function showAlert(message, type) {
+                if (type === 'success') {
+                    showModal(message);
+                } else {
+                    alertText.textContent = message;
+                    alertBox.className = 'block rounded-lg p-4 border-l-4 bg-red-50 border-red-400 text-red-700';
+                    alertBox.classList.remove('hidden');
+                    
+                    // Hide alert after 5 seconds
+                    setTimeout(() => {
+                        alertBox.classList.add('hidden');
+                    }, 5000);
+                }
             }
-        }
-    });
+
+            // Make showAlert available globally for the form submission
+            window.showAlert = showAlert;
+        });
     </script>
 </body>
 </html>

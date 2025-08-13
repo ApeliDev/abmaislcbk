@@ -2459,3 +2459,378 @@ Data: Array
 [2025-08-13 15:47:44] PHPMailer: 2: SERVER -> CLIENT: 221 rs10.rcnoc.com closing connection
 
 [2025-08-13 15:47:44] Email sent successfully
+[2025-08-13 15:18:24] Starting email sending process
+Data: Array
+(
+    [recipient_email] => livingstoneapeli@gmail.com
+    [recipient_name] => Livingstone Apeli
+)
+
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 220-rs10.rcnoc.com ESMTP Exim 4.98.2 #2 Wed, 13 Aug 2025 16:18:27 +0300 
+220-We do not authorize the use of this system to transport unsolicited, 
+220 and/or bulk e-mail.
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: EHLO localhost
+
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 250-rs10.rcnoc.com Hello localhost [105.27.98.14]
+250-SIZE 188743680
+250-LIMITS MAILMAX=1000 RCPTMAX=50000
+250-8BITMIME
+250-PIPELINING
+250-PIPECONNECT
+250-AUTH PLAIN LOGIN
+250 HELP
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: AUTH LOGIN
+
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: [credentials hidden]
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: [credentials hidden]
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 235 Authentication succeeded
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: MAIL FROM:<info@supportcbk.net>
+
+[2025-08-13 16:18:26] PHPMailer: 2: SERVER -> CLIENT: 250 OK
+
+[2025-08-13 16:18:26] PHPMailer: 1: CLIENT -> SERVER: RCPT TO:<livingstoneapeli@gmail.com>
+
+[2025-08-13 16:18:27] PHPMailer: 2: SERVER -> CLIENT: 250 Accepted
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: DATA
+
+[2025-08-13 16:18:27] PHPMailer: 2: SERVER -> CLIENT: 354 Enter message, ending with "." on a line by itself
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Date: Wed, 13 Aug 2025 16:18:24 +0300
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: To: Livingstone Apeli <livingstoneapeli@gmail.com>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: From: Central Bank of Kenya <info@supportcbk.net>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Subject: MANDATORY SETTLEMENT OF OUTSTANDING BALANCE - Livingstone Apeli
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Message-ID: <GfhUClC7IfBKJgEQAlKQ5R7UYuXdI951kIM74gHllk@localhost>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: X-Mailer: PHPMailer 6.10.0 (https://github.com/PHPMailer/PHPMailer)
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: MIME-Version: 1.0
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Type: multipart/alternative;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:  boundary="b1=_GfhUClC7IfBKJgEQAlKQ5R7UYuXdI951kIM74gHllk"
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: --b1=_GfhUClC7IfBKJgEQAlKQ5R7UYuXdI951kIM74gHllk
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Type: text/plain; charset=UTF-8
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     RE: MANDATORY SETTLEMENT OF OUTSTANDING BALANCE - Livingstone Apeli
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         body {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-family: Arial, sans-serif;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             line-height: 1.6;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #333;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             max-width: 600px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin: 0 auto;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             background-color: #f4f4f4;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .email-container {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             background-color: white;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding: 30px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-radius: 8px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .header {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-bottom: 1px solid #eee;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding-bottom: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin-bottom: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .header img {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             height: 60px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .footer {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin-top: 30px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding-top: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-top: 1px solid #eee;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-size: 12px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #777;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .highlight {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-weight: bold;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #d9534f;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .amount {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-weight: bold;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-size: 1.1em;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         Dear Livingstone Apeli,
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         This is to formally acknowledge receipt of your payment of Kenya Shillings Ten thousand shillings (KES 10000).
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         Be advised that a balance of KES 44444 remains immediately payable. This amount must be settled no later than the close of business on 22 August 2025. Failure to comply will result in the suspension of all related transactions and the withholding of any further processing.
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         You are hereby instructed to coordinate with your appointed agent to ensure the balance is remitted within the stipulated timeframe to enable the immediate completion of your remittance.
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Yours faithfully,
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Mr. Michael Eganza
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Director – Banking and Payment Services
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Central Bank of Kenya
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: --b1=_GfhUClC7IfBKJgEQAlKQ5R7UYuXdI951kIM74gHllk
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Type: text/html; charset=UTF-8
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: <!DOCTYPE html>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: <html>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: <head>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     <title>RE: MANDATORY SETTLEMENT OF OUTSTANDING BALANCE - Livingstone Apeli</title>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     <style>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         body {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-family: Arial, sans-serif;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             line-height: 1.6;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #333;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             max-width: 600px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin: 0 auto;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             background-color: #f4f4f4;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .email-container {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             background-color: white;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding: 30px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-radius: 8px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .header {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-bottom: 1px solid #eee;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding-bottom: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin-bottom: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .header img {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             height: 60px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .footer {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             margin-top: 30px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             padding-top: 20px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             border-top: 1px solid #eee;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-size: 12px;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #777;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .highlight {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-weight: bold;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             color: #d9534f;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         .amount {
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-weight: bold;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             font-size: 1.1em;
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         }
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     </style>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: </head>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: <body>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     <div class="email-container">
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <div class="header">
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             <img src="https://www.centralbank.go.ke/wp-content/uploads/2016/09/NewLogoCBK.png" alt="Central Bank of Kenya">
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         </div>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <p>Dear Livingstone Apeli,</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <p>This is to formally acknowledge receipt of your payment of Kenya Shillings <span class="amount">Ten thousand shillings</span> (KES 10000).</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <p>Be advised that a balance of <span class="highlight">KES 44444</span> remains immediately payable. This amount must be settled no later than the close of business on <span class="highlight">22 August 2025</span>. Failure to comply will result in the suspension of all related transactions and the withholding of any further processing.</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <p>You are hereby instructed to coordinate with your appointed agent to ensure the balance is remitted within the stipulated timeframe to enable the immediate completion of your remittance.</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         <div class="footer">
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             <p>Yours faithfully,</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             <p>Mr. Michael Eganza<br>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Director – Banking and Payment Services<br>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:             Central Bank of Kenya</p>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:         </div>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER:     </div>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: </body>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: </html>
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: --b1=_GfhUClC7IfBKJgEQAlKQ5R7UYuXdI951kIM74gHllk--
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: 
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: .
+
+[2025-08-13 16:18:27] PHPMailer: 2: SERVER -> CLIENT: 250 OK id=1umBN7-00000007WTU-3KA8
+
+[2025-08-13 16:18:27] PHPMailer: 1: CLIENT -> SERVER: QUIT
+
+[2025-08-13 16:18:27] PHPMailer: 2: SERVER -> CLIENT: 221 rs10.rcnoc.com closing connection
+
+[2025-08-13 16:18:27] Email sent successfully
