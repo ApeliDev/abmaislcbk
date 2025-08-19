@@ -37,15 +37,15 @@
                             <p class="text-blue-100 text-sm">Send mandatory settlement notices to customers</p>
                         </div>
                     </div>
-                    <nav>
+                    <nav class="flex flex-col sm:flex-row gap-2">
                         <a href="send_email_form.php" 
-                           class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border border-white/20">
+                           class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border border-white/20 text-center">
                             Send Remittance Confirmation
                         </a>
 
-                       <a href="reminder_form.html" 
-                           class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border border-white/20">
-                            Send Remittance Confirmation
+                        <a href="reminder_form.html" 
+                           class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border border-white/20 text-center">
+                            Send Reminder Email
                         </a> 
                     </nav>
                 </div>
