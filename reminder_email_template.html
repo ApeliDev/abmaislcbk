@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent: Outstanding Customs Levy Balance - Action Required</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-height: 80px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666666;
+        }
+        .amount-box {
+            background-color: #f5f9ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .payment-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .payment-details th, .payment-details td {
+            border: 1px solid #dddddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .payment-details th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .important-note {
+            background-color: #fff8e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://www.centralbank.go.ke/wp-content/uploads/2020/05/cbk-logo.png" alt="Central Bank of Kenya">
+    </div>
+    
+    <div class="content">
+        <p><strong>Date:</strong> {CURRENT_DATE}</p>
+        <p><strong>Reference:</strong> {REFERENCE_NUMBER}</p>
+        
+        <p>Dear {RECIPIENT_NAME},</p>
+        
+        <p>I hope this email finds you well.</p>
+        
+        <p>This is to confirm receipt of KES {PAYMENT_AMOUNT} paid on {PAYMENT_DATE} at {PAYMENT_TIME} 
+        toward the {LEVY_TYPE}.</p>
+        
+        <div class="amount-box">
+            <h3>Payment Summary</h3>
+            <table class="payment-details">
+                <tr>
+                    <th>Description</th>
+                    <th>Amount (KES)</th>
+                </tr>
+                <tr>
+                    <td>Amount Received</td>
+                    <td>{PAYMENT_AMOUNT}</td>
+                </tr>
+                <tr>
+                    <td>Levy Percentage ({LEVY_PERCENTAGE}%)</td>
+                    <td>{LEVY_AMOUNT}</td>
+                </tr>
+                <tr>
+                    <td><strong>Outstanding Balance</strong></td>
+                    <td><strong class="highlight">{OUTSTANDING_BALANCE}</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Due Date</strong></td>
+                    <td><strong class="highlight">{DUE_DATE}</strong></td>
+                </tr>
+            </table>
+        </div>
+        
+        <p>Please be advised that the duty has been officially revised to {LEVY_PERCENTAGE}% and will be 
+        withheld and deducted at the time of final transaction settlement. The revised levy stands at 
+        KES {LEVY_AMOUNT}, leaving a balance of KES {OUTSTANDING_BALANCE}.</p>
+        
+        <div class="important-note">
+            <p><strong>Important:</strong> Kindly ensure the outstanding amount is settled by <strong>{DUE_DATE}</strong> 
+            to avoid any processing delays of your remittance of KES {REMITTANCE_AMOUNT}.</p>
+            
+            <p>Failure to remit the outstanding balance by the due date may result in:</p>
+            <ul>
+                <li>Delayed processing of your transaction</li>
+                <li>Additional penalties as per regulatory requirements</li>
+                <li>Suspension of related transactions</li>
+            </ul>
+        </div>
+        
+        <p>Yours faithfully,<br>
+        {SENDER_NAME}<br>
+        {SENDER_TITLE}<br>
+        Central Bank of Kenya</p>
+    </div>
+    
+    <div class="footer">
+        <p style="font-size: 11px; color: #999999;">
+            CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be protected by legal privilege. 
+            If you are not the intended recipient, be aware that any disclosure, copying, distribution, or use of this email 
+            or any attachment is prohibited. If you have received this email in error, please notify us immediately by 
+            returning it to the sender and delete this copy from your system. Thank you.
+        </p>
+    </div>
+</body>
+</html>
