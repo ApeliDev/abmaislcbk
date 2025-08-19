@@ -65,8 +65,7 @@ class ReminderEmailTemplate {
             
             return [
                 'subject' => $this->subject,
-                'body' => $emailContent,
-                'headers' => $this->getEmailHeaders()
+                'body' => $emailContent
             ];
             
         } catch (Exception $e) {
@@ -87,21 +86,6 @@ class ReminderEmailTemplate {
             return $currency . ' 0.00';
         }
         return $currency . ' ' . number_format((float)$amount, 2);
-    }
-    
-    private function getEmailHeaders() {
-        $headers = [
-            'MIME-Version: 1.0',
-            'Content-type: text/html; charset=utf-8',
-            'From: ' . $this->senderName . ' <noreply@centralbank.go.ke>',
-            'Reply-To: customerservice@centralbank.go.ke',
-            'X-Mailer: PHP/' . phpversion(),
-            'X-Priority: 1 (Highest)',
-            'X-MSMail-Priority: High',
-            'Importance: High'
-        ];
-        
-        return implode("\r\n", $headers);
     }
 
     // Getters and Setters with chaining

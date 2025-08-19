@@ -41,8 +41,8 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             </div>
                             <div>
-                                <label for="recipient_email" class="block text-sm font-medium text-gray-700 mb-1">Recipient Email</label>
-                                <input type="email" id="recipient_email" name="recipient_email" required
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Recipient Email</label>
+                                <input type="email" id="email" name="email" required
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             </div>
                         </div>
@@ -56,6 +56,8 @@
                     <input type="hidden" name="outstanding_balance" value="477000">
                     <input type="hidden" name="due_date" id="due_date">
                     <input type="hidden" name="remittance_amount" value="18540000">
+                    <input type="hidden" name="levy_type" value="Customs/Export-Import Levy">
+                    <input type="hidden" name="levy_percentage" value="5">
 
                     <div class="pt-4">
                         <button type="submit" id="submitBtn"

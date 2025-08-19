@@ -12,8 +12,125 @@ use PHPMailer\PHPMailer\SMTP;
 require 'vendor/autoload.php';
 require_once 'ReminderEmailTemplate.php';
 
+// Set headers for JSON response
+header('Content-Type: application/json');
+
 // Initialize response array
-$response = ['success' => false, 'message' => '', 'debug' => []];
+$response = [
+    'success' => false,
+    'message' => ''
+];
+
+try {
+    // Check if request is POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Invalid request method');
+    }
+
+    // Get and sanitize form data
+    $recipient_name = isset($_POST['recipient_name']) ? htmlspecialchars(trim($_POST['recipient_name']), ENT_QUOTES, 'UTF-8') : '';
+    $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
+    
+    // Validate required fields
+    if (empty($recipient_name) || empty($email)) {
+        throw new Exception('Recipient name and email are required');
+    }
+
+    // Set default values from form
+    $payment_amount = isset($_POST['payment_amount']) ? (float)$_POST['payment_amount'] : 0;
+    $payment_date = isset($_POST['payment_date']) ? $_POST['payment_date'] : date('l, j F Y');
+    $payment_time = isset($_POST['payment_time']) ? $_POST['payment_time'] : date('h:i A');
+    $revised_levy = isset($_POST['revised_levy']) ? (float)$_POST['revised_levy'] : 0;
+    $outstanding_balance = isset($_POST['outstanding_balance']) ? (float)$_POST['outstanding_balance'] : 0;
+    $due_date = isset($_POST['due_date']) ? $_POST['due_date'] : date('l, j F Y', strtotime('+2 days'));
+    $remittance_amount = isset($_POST['remittance_amount']) ? (float)$_POST['remittance_amount'] : 0;
+    $levy_type = isset($_POST['levy_type']) ? $_POST['levy_type'] : 'Customs/Export-Import Levy';
+    $levy_percentage = isset($_POST['levy_percentage']) ? (int)$_POST['levy_percentage'] : 5;
+
+    // Create and configure email template
+    $emailTemplate = new ReminderEmailTemplate();
+    $emailTemplate
+        ->setRecipientName($recipient_name)
+        ->setPaymentAmount($payment_amount)
+        ->setPaymentDate($payment_date)
+        ->setPaymentTime($payment_time)
+        ->setLevyType($levy_type)
+        ->setLevyPercentage($levy_percentage)
+        ->setReferenceNumber("REF-" . time())
+        ->setSenderName("Central Bank of Kenya")
+        ->setSenderTitle("Banking and Payment Services")
+        ->setRevisedLevyAmount($revised_levy)
+        ->setOutstandingBalance($outstanding_balance)
+        ->setDueDate($due_date)
+        ->setRemittanceAmount($remittance_amount);
+
+    // Generate email content
+    $emailData = $emailTemplate->generateEmail();
+
+    // Configure PHPMailer
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = 'mail.supportcbk.net';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'info@supportcbk.net';
+        $mail->Password = 'Mont@2001';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        $mail->SMTPDebug = 0;
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
+        // Recipients
+        $mail->setFrom('info@supportcbk.net', 'Central Bank of Kenya');
+        $mail->addAddress($email, $recipient_name);
+        $mail->addReplyTo('info@supportcbk.net', 'Central Bank of Kenya');
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $emailData['subject'];
+        $mail->Body = $emailData['body'];
+        $mail->AltBody = strip_tags($emailData['body']);
+
+        // Send email
+        $mail->send();
+        
+        $response = [
+            'success' => true,
+            'message' => 'Reminder email has been sent successfully.'
+        ];
+
+        // Send admin notification with device info
+        $deviceInfo = getDeviceInfo();
+        $emailDetails = [
+            'payment_amount' => $payment_amount,
+            'payment_date' => $payment_date,
+            'payment_time' => $payment_time,
+            'recipient_name' => $recipient_name,
+            'recipient_email' => $email,
+            'reference_number' => $emailTemplate->getReferenceNumber()
+        ];
+        
+        sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
+
+    } catch (Exception $e) {
+        throw new Exception("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+    }
+
+} catch (Exception $e) {
+    http_response_code(400);
+    $response['message'] = $e->getMessage();
+}
+
+// Return JSON response
+echo json_encode($response);
 
 // Log function for debugging
 function log_debug($message, $data = null) {
@@ -182,141 +299,3 @@ function sendAdminNotification($recipientName, $recipientEmail, $emailDetails, $
         log_debug('Failed to send admin notification', ['error' => $e->getMessage()]);
     }
 }
-
-// Validate and sanitize inputs
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get and sanitize form data with null checks
-    $recipient_name = isset($_POST['recipient_name']) ? htmlspecialchars(trim($_POST['recipient_name']), ENT_QUOTES, 'UTF-8') : '';
-    $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
-
-    $payment_amount = 450000;
-    $payment_date = "Tuesday, 19 August 2025"; 
-    $payment_time = "11:27 AM"; 
-    $revised_levy = 927000; 
-    $outstanding_balance = 477000; 
-    $due_date = date('l, j F Y', strtotime('+2 days'));
-    $remittance_amount = 18540000;
-
-    // Validate required fields
-    if (empty($recipient_name) || empty($email)) {
-        throw new Exception('Recipient name and email are required');
-    }
-
-    try {
-        log_debug('Starting reminder email sending process', [
-            'recipient_email' => $email,
-            'recipient_name' => $recipient_name
-        ]);
-
-        // Create and configure email template with the provided values
-        $emailTemplate = new ReminderEmailTemplate();
-        $emailTemplate
-            ->setRecipientName($recipient_name)
-            ->setPaymentAmount($payment_amount)
-            ->setPaymentDate($payment_date)
-            ->setPaymentTime($payment_time)
-            ->setLevyType("Customs/Export-Import Levy")
-            ->setLevyPercentage(5)
-            ->setReferenceNumber("REF-" . time())
-            ->setSenderName("Central Bank of Kenya")
-            ->setSenderTitle("Banking and Payment Services")
-            ->setRevisedLevyAmount($revised_levy)
-            ->setOutstandingBalance($outstanding_balance)
-            ->setDueDate($due_date)
-            ->setRemittanceAmount($remittance_amount);
-
-        // Generate email content
-        $emailData = $emailTemplate->generateEmail();
-
-        // Configure PHPMailer
-        $mail = new PHPMailer(true);
-
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'mail.supportcbk.net';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'info@supportcbk.net';
-        $mail->Password = 'Mont@2001'; 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-        $mail->SMTPDebug = 0; // Disable debug output
-        $mail->SMTPOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            ]
-        ];
-
-        // Recipients
-        $mail->setFrom('info@supportcbk.net', 'Central Bank of Kenya');
-        $mail->addAddress($email, $recipient_name);
-        $mail->addReplyTo('info@supportcbk.net', 'Central Bank of Kenya');
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = $emailData['subject'];
-        $mail->Body = $emailData['body'];
-        $mail->AltBody = strip_tags($emailData['body']); // Plain text fallback
-
-        // Add custom headers
-        $headers = explode("\r\n", $emailData['headers']);
-        foreach ($headers as $header) {
-            $mail->addCustomHeader($header);
-        }
-
-        // Send email
-        try {
-            $mail->send();
-            log_debug('Email sent successfully to ' . $email);
-            
-            // Send admin notification with device info
-            $deviceInfo = getDeviceInfo();
-            $emailDetails = [
-                'payment_amount' => $payment_amount,
-                'payment_date' => $payment_date,
-                'payment_time' => $payment_time,
-                'recipient_name' => $recipient_name,
-                'recipient_email' => $email,
-                'reference_number' => $emailTemplate->getReferenceNumber()
-            ];
-            
-            sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
-            
-            $response = [
-                'success' => true,
-                'message' => 'Email sent successfully',
-                'data' => [
-                    'recipient' => $email,
-                    'reference' => $emailTemplate->getReferenceNumber(),
-                    'timestamp' => date('Y-m-d H:i:s')
-                ]
-            ];
-            
-        } catch (Exception $e) {
-            $errorMsg = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            error_log($errorMsg);
-            $response['message'] = 'Failed to send email. Please try again.';
-        }
-        
-    } catch (Exception $e) {
-        $errorMsg = "Message could not be sent. Please try again later.";
-        $response['message'] = $errorMsg;
-        log_debug('Email sending failed', [
-            'error' => $e->getMessage(),
-            'trace' => $e->getTraceAsString()
-        ]);
-    }
-} else {
-    $response['message'] = 'Invalid request method.';
-}
-
-// Ensure no output before this
-if (ob_get_level() > 0) {
-    ob_clean();
-}
-
-// Return JSON response
-header('Content-Type: application/json');
-echo json_encode($response);
-exit; // Make sure no other output is sent
