@@ -115,5 +115,14 @@ class ReminderEmailTemplate {
         $this->subject = $subject;
         return $this;
     }
+
+    /**
+     * Get the email subject
+     * 
+     * @return string The email subject
+     */
+    public function getSubject() {
+        return $this->subject;
+    }
 }
 ?>
