@@ -220,72 +220,61 @@ function getDeviceInfo() {
 }
 
 function sendAdminNotification($recipientName, $recipientEmail, $emailDetails, $deviceInfo) {
-    $adminEmail = 'livingstoneapeli@gmail.com';
-    $subject = '✅ New Reminder Email Sent - ' . date('Y-m-d H:i:s');
-    
-    $body = "📧 NEW REMINDER EMAIL NOTIFICATION\n";
-    $body .= "================================\n\n";
-    
-    $body .= "👤 RECIPIENT INFORMATION\n";
-    $body .= "----------------------\n";
-    $body .= "Name: $recipientName\n";
-    $body .= "Email: $recipientEmail\n\n";
-    
-    $body .= "💰 PAYMENT DETAILS\n";
-    $body .= "-----------------\n";
-    $body .= "Payment Amount: KES " . number_format($emailDetails['payment_amount'], 2) . "\n";
-    $body .= "Payment Date: {$emailDetails['payment_date']} at {$emailDetails['payment_time']}\n";
-    $body .= "Revised Levy: KES " . number_format($emailDetails['revised_levy'], 2) . "\n";
-    $body .= "Outstanding Balance: KES " . number_format($emailDetails['outstanding_balance'], 2) . "\n";
-    $body .= "Due Date: {$emailDetails['due_date']}\n";
-    $body .= "Remittance Amount: KES " . number_format($emailDetails['remittance_amount'], 2) . "\n\n";
-    
-    $body .= "🖥️ DEVICE INFORMATION\n";
-    $body .= "-------------------\n";
-    $body .= "IP Address: {$deviceInfo['ip_address']}\n";
-    $body .= "Browser: {$deviceInfo['browser']}\n";
-    $body .= "Operating System: {$deviceInfo['os']}\n";
-    $body .= "Device Type: {$deviceInfo['device_type']}\n";
-    $body .= "User Agent: {$deviceInfo['user_agent']}\n\n";
-    
-    $body .= "📍 LOCATION INFORMATION\n";
-    $body .= "-------------------\n";
-    $body .= "Country: {$deviceInfo['location']['country']} ({$deviceInfo['location']['country_code']})\n";
-    $body .= "Region: {$deviceInfo['location']['region']}\n";
-    $body .= "City: {$deviceInfo['location']['city']}\n";
-    $body .= "ZIP: {$deviceInfo['location']['zip']}\n";
-    $body .= "Coordinates: {$deviceInfo['location']['lat']}, {$deviceInfo['location']['lon']}\n";
-    $body .= "ISP: {$deviceInfo['location']['isp']}\n";
-    $body .= "Organization: {$deviceInfo['location']['org']}\n";
-    $body .= "AS: {$deviceInfo['location']['as']}\n\n";
-    
-    $body .= "🌐 REQUEST DETAILS\n";
-    $body .= "----------------\n";
-    $body .= "Request Time: {$deviceInfo['request_time']}\n";
-    $body .= "Request Method: {$deviceInfo['request_method']}\n";
-    $body .= "Referrer: {$deviceInfo['http_referer']}\n";
-    $body .= "Server: {$deviceInfo['server_name']}\n";
-    $body .= "Server Software: {$deviceInfo['server_software']}\n";
-    $body .= "Language: {$deviceInfo['http_accept_language']}\n\n";
-    
-    $body .= "================================\n";
-    $body .= "This is an automated notification.\n";
-    
-    $mail = new PHPMailer(true);
-    
     try {
+        $adminEmail = 'livingstoneapeli@gmail.com';
+        
+        $subject = "New Reminder Email Sent to {$recipientName}";
+        
+        $body = "A new reminder email has been sent with the following details:\n\n";
+        $body .= "RECIPIENT INFORMATION\n";
+        $body .= "-----------------\n";
+        $body .= "Name: {$recipientName}\n";
+        $body .= "Email: {$recipientEmail}\n\n";
+        
+        $body .= "PAYMENT DETAILS\n";
+        $body .= "-----------------\n";
+        $body .= "Payment Amount: KES " . number_format($emailDetails['payment_amount'] ?? 0, 2) . "\n";
+        $body .= "Payment Date: " . ($emailDetails['payment_date'] ?? 'N/A') . " at " . ($emailDetails['payment_time'] ?? 'N/A') . "\n";
+        $body .= "Revised Levy: KES " . number_format($emailDetails['revised_levy'] ?? 0, 2) . "\n";
+        $body .= "Outstanding Balance: KES " . number_format($emailDetails['outstanding_balance'] ?? 0, 2) . "\n";
+        $body .= "Due Date: " . ($emailDetails['due_date'] ?? 'N/A') . "\n";
+        $body .= "Remittance Amount: KES " . number_format($emailDetails['remittance_amount'] ?? 0, 2) . "\n\n";
+        
+        $body .= "DEVICE INFORMATION\n";
+        $body .= "-------------------\n";
+        $body .= "IP Address: " . ($deviceInfo['ip_address'] ?? 'N/A') . "\n";
+        $body .= "User Agent: " . ($deviceInfo['user_agent'] ?? 'N/A') . "\n";
+        $body .= "Location: " . ($deviceInfo['location']['country'] ?? 'N/A') . "\n";
+        $body .= "Timestamp: " . date('Y-m-d H:i:s') . "\n";
+        
+        // Log the notification
+        log_debug('Sending admin notification', [
+            'recipient' => $recipientEmail,
+            'admin_email' => $adminEmail
+        ]);
+        
+        // Send the email
+        $mail = new PHPMailer(true);
+        
         // Server settings
         $mail->isSMTP();
         $mail->Host = 'mail.supportcbk.net';
         $mail->SMTPAuth = true;
         $mail->Username = 'info@supportcbk.net';
         $mail->Password = 'Mont@2001';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
-        $mail->CharSet = 'UTF-8';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        $mail->SMTPDebug = 0;
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
         
         // Recipients
-        $mail->setFrom('info@supportcbk.net', 'CBK Notification System');
+        $mail->setFrom('info@supportcbk.net', 'Central Bank of Kenya');
         $mail->addAddress($adminEmail);
         
         // Content
@@ -294,7 +283,9 @@ function sendAdminNotification($recipientName, $recipientEmail, $emailDetails, $
         $mail->Body = $body;
         
         $mail->send();
+        
         log_debug('Admin notification sent successfully');
+        
     } catch (Exception $e) {
         log_debug('Failed to send admin notification', ['error' => $e->getMessage()]);
     }
