@@ -4,136 +4,257 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urgent: Outstanding Customs Levy Balance - Action Required</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
+    <style type="text/css">
+        /* Base Styles */
+        body, p, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             color: #333333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
         }
+        
+        body {
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: none;
+            width: 100% !important;
+            height: 100%;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Layout */
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
         .header {
-            border-bottom: 2px solid #0066cc;
-            padding-bottom: 10px;
+            background: #0066cc;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .header img {
+            max-height: 60px;
+            height: auto;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        /* Typography */
+        h1 {
+            color: #0066cc;
+            font-size: 24px;
+            font-weight: 600;
             margin-bottom: 20px;
         }
-        .header img {
-            max-height: 80px;
+        
+        h2 {
+            color: #333333;
+            font-size: 20px;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
         }
-        .content {
-            padding: 20px 0;
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.6;
         }
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 12px;
-            color: #666666;
-        }
+        
+        /* Components */
         .amount-box {
-            background-color: #f5f9ff;
+            background: #f8fafc;
             border-left: 4px solid #0066cc;
-            padding: 15px;
-            margin: 20px 0;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
         }
+        
         .payment-details {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            font-size: 14px;
         }
-        .payment-details th, .payment-details td {
-            border: 1px solid #dddddd;
-            padding: 12px;
+        
+        .payment-details th, 
+        .payment-details td {
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
             text-align: left;
         }
+        
         .payment-details th {
-            background-color: #f2f2f2;
-            font-weight: bold;
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
         }
+        
         .important-note {
             background-color: #fff8e6;
             border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
         }
+        
+        .important-note h3 {
+            color: #b45309;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
         .highlight {
             color: #d32f2f;
-            font-weight: bold;
+            font-weight: 600;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #666666;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer p {
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .divider {
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 25px 0;
+        }
+        
+        .reference {
+            color: #666666;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #0066cc;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 15px 0;
+        }
+        
+        /* Responsive */
+        @media only screen and (max-width: 600px) {
+            .content, .header, .footer {
+                padding: 20px 15px;
+            }
+            
+            .payment-details th, 
+            .payment-details td {
+                padding: 10px;
+                font-size: 13px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <img src="https://www.centralbank.go.ke/wp-content/uploads/2020/05/cbk-logo.png" alt="Central Bank of Kenya">
-    </div>
-    
-    <div class="content">
-        <p><strong>Date:</strong> {CURRENT_DATE}</p>
-        <p><strong>Reference:</strong> {REFERENCE_NUMBER}</p>
-        
-        <p>Dear {RECIPIENT_NAME},</p>
-        
-        <p>I hope this email finds you well.</p>
-        
-        <p>This is to confirm receipt of KES {PAYMENT_AMOUNT} paid on {PAYMENT_DATE} at {PAYMENT_TIME} 
-        toward the {LEVY_TYPE}.</p>
-        
-        <div class="amount-box">
-            <h3>Payment Summary</h3>
-            <table class="payment-details">
-                <tr>
-                    <th>Description</th>
-                    <th>Amount (KES)</th>
-                </tr>
-                <tr>
-                    <td>Amount Received</td>
-                    <td>{PAYMENT_AMOUNT}</td>
-                </tr>
-                <tr>
-                    <td>Levy Percentage ({LEVY_PERCENTAGE}%)</td>
-                    <td>{LEVY_AMOUNT}</td>
-                </tr>
-                <tr>
-                    <td><strong>Outstanding Balance</strong></td>
-                    <td><strong class="highlight">{OUTSTANDING_BALANCE}</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>Due Date</strong></td>
-                    <td><strong class="highlight">{DUE_DATE}</strong></td>
-                </tr>
-            </table>
+<body style="margin: 0; padding: 0; background: #f4f4f4; font-family: 'Segoe UI', Arial, sans-serif;">
+    <div class="email-container">
+        <div class="header">
+            <img src="https://www.centralbank.go.ke/wp-content/uploads/2020/05/cbk-logo.png" alt="Central Bank of Kenya" style="max-height: 60px;">
         </div>
         
-        <p>Please be advised that the duty has been officially revised to {LEVY_PERCENTAGE}% and will be 
-        withheld and deducted at the time of final transaction settlement. The revised levy stands at 
-        KES {LEVY_AMOUNT}, leaving a balance of KES {OUTSTANDING_BALANCE}.</p>
-        
-        <div class="important-note">
-            <p><strong>Important:</strong> Kindly ensure the outstanding amount is settled by <strong>{DUE_DATE}</strong> 
-            to avoid any processing delays of your remittance of KES {REMITTANCE_AMOUNT}.</p>
+        <div class="content">
+            <div class="reference">
+                <p><strong>Date:</strong> {CURRENT_DATE} &nbsp;|&nbsp; <strong>Ref:</strong> {REFERENCE_NUMBER}</p>
+            </div>
             
-            <p>Failure to remit the outstanding balance by the due date may result in:</p>
-            <ul>
-                <li>Delayed processing of your transaction</li>
-                <li>Additional penalties as per regulatory requirements</li>
-                <li>Suspension of related transactions</li>
-            </ul>
+            <h1>Outstanding Customs Levy Balance</h1>
+            
+            <p>Dear {RECIPIENT_NAME},</p>
+            
+            <p>I hope this email finds you well.</p>
+            
+            <p>This is to confirm receipt of <strong>KES {PAYMENT_AMOUNT}</strong> paid on <strong>{PAYMENT_DATE}</strong> at <strong>{PAYMENT_TIME}</strong> toward the {LEVY_TYPE}.</p>
+            
+            <div class="amount-box">
+                <h2>Payment Summary</h2>
+                <table class="payment-details" cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <th width="60%">Description</th>
+                        <th width="40%">Amount (KES)</th>
+                    </tr>
+                    <tr>
+                        <td>Amount Received</td>
+                        <td>{PAYMENT_AMOUNT}</td>
+                    </tr>
+                    <tr>
+                        <td>Levy Percentage ({LEVY_PERCENTAGE}%)</td>
+                        <td>{LEVY_AMOUNT}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Outstanding Balance</strong></td>
+                        <td><span class="highlight">{OUTSTANDING_BALANCE}</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Due Date</strong></td>
+                        <td><span class="highlight">{DUE_DATE}</span></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <p>Please be advised that the duty has been officially revised to <strong>{LEVY_PERCENTAGE}%</strong> and will be withheld and deducted at the time of final transaction settlement. The revised levy stands at <strong>KES {LEVY_AMOUNT}</strong>, leaving a balance of <strong>KES {OUTSTANDING_BALANCE}</strong>.</p>
+            
+            <div class="important-note">
+                <h3>Important Notice</h3>
+                <p>Kindly ensure the outstanding amount is settled by <strong>{DUE_DATE}</strong> to avoid any processing delays of your remittance of <strong>KES {REMITTANCE_AMOUNT}</strong>.</p>
+                
+                <p>Failure to remit the outstanding balance by the due date may result in:</p>
+                <ul style="margin: 10px 0 0 20px; padding-left: 10px;">
+                    <li style="margin-bottom: 8px;">Delayed processing of your transaction</li>
+                    <li style="margin-bottom: 8px;">Additional penalties as per regulatory requirements</li>
+                    <li style="margin-bottom: 8px;">Suspension of related transactions</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 25px;">For any queries or clarifications regarding this notice, please contact our Customer Service team at <a href="mailto:customerservice@centralbank.go.ke" style="color: #0066cc; text-decoration: none;">customerservice@centralbank.go.ke</a> or call <a href="tel:+254202860000" style="color: #0066cc; text-decoration: none;">+254 20 286 0000</a> during working hours (8:00 AM - 5:00 PM EAT, Monday to Friday).</p>
+            
+            <p>We appreciate your prompt attention to this matter.</p>
+            
+            <div style="margin: 30px 0 20px 0;">
+                <p>Yours faithfully,</p>
+                <p style="margin-top: 5px; font-weight: 600;">{SENDER_NAME}</p>
+                <p>{SENDER_TITLE}</p>
+                <p>Central Bank of Kenya</p>
+            </div>
+            
+            <a href="#" class="btn">Make Payment Now</a>
         </div>
         
-        <p>Yours faithfully,<br>
-        {SENDER_NAME}<br>
-        {SENDER_TITLE}<br>
-        Central Bank of Kenya</p>
-    </div>
-    
-    <div class="footer">
-        <p style="font-size: 11px; color: #999999;">
-            CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be protected by legal privilege. 
-            If you are not the intended recipient, be aware that any disclosure, copying, distribution, or use of this email 
-            or any attachment is prohibited. If you have received this email in error, please notify us immediately by 
-            returning it to the sender and delete this copy from your system. Thank you.
-        </p>
+        <div class="footer">
+            <p>CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be protected by legal privilege. If you are not the intended recipient, be aware that any disclosure, copying, distribution, or use of this email or any attachment is prohibited. If you have received this email in error, please notify us immediately by returning it to the sender and delete this copy from your system. Thank you.</p>
+            <p style="margin-top: 15px; color: #999999;">&copy; 2025 Central Bank of Kenya. All rights reserved.</p>
+        </div>
     </div>
 </body>
 </html>
