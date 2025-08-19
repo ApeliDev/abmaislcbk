@@ -3,98 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Reminder Email</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="text"], input[type="email"], input[type="number"] { width: 100%; padding: 8px; }
-        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
+    <meta name="description" content="Send Reminder Email">
+    <title>Send Reminder | Central Bank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bank-primary': '#0056b3',
+                        'bank-secondary': '#004494',
+                        'bank-success': '#10b981',
+                        'bank-error': '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <h2>Send Reminder Email</h2>
-    <form id="reminderForm">
-        <div class="form-group">
-            <label for="recipient_name">Recipient Name:</label>
-            <input type="text" id="recipient_name" name="recipient_name" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="recipient_email">Recipient Email:</label>
-            <input type="email" id="recipient_email" name="recipient_email" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="payment_amount">Payment Amount (KES):</label>
-            <input type="text" id="payment_amount" name="payment_amount" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="payment_date">Payment Date:</label>
-            <input type="text" id="payment_date" name="payment_date" value="<?php echo date('l, j F Y'); ?>" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="payment_time">Payment Time:</label>
-            <input type="text" id="payment_time" name="payment_time" value="<?php echo date('h:i A'); ?>" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="revised_levy">Revised Levy Amount (KES):</label>
-            <input type="text" id="revised_levy" name="revised_levy" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="outstanding_balance">Outstanding Balance (KES):</label>
-            <input type="text" id="outstanding_balance" name="outstanding_balance" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="due_date">Due Date:</label>
-            <input type="text" id="due_date" name="due_date" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="remittance_amount">Remittance Amount (KES):</label>
-            <input type="text" id="remittance_amount" name="remittance_amount" required>
-        </div>
-        
-        <button type="submit">Send Reminder Email</button>
-    </form>
+<body class="bg-gray-50 font-sans">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-2xl">
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800">Send Reminder Email</h1>
+                    <p class="text-gray-600 mt-2">Send a reminder about the outstanding customs levy balance</p>
+                </div>
 
-    <div id="response" style="margin-top: 20px; padding: 10px; display: none;"></div>
+                <form id="reminderForm" class="space-y-6">
+                    <!-- Recipient Information -->
+                    <div class="space-y-2">
+                        <h2 class="text-lg font-medium text-gray-800">Recipient Information</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="recipient_name" class="block text-sm font-medium text-gray-700 mb-1">Recipient Name</label>
+                                <input type="text" id="recipient_name" name="recipient_name" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label for="recipient_email" class="block text-sm font-medium text-gray-700 mb-1">Recipient Email</label>
+                                <input type="email" id="recipient_email" name="recipient_email" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden fields with default values -->
+                    <input type="hidden" name="payment_amount" value="450000">
+                    <input type="hidden" name="payment_date" id="payment_date">
+                    <input type="hidden" name="payment_time" id="payment_time">
+                    <input type="hidden" name="revised_levy" value="927000">
+                    <input type="hidden" name="outstanding_balance" value="477000">
+                    <input type="hidden" name="due_date" id="due_date">
+                    <input type="hidden" name="remittance_amount" value="18540000">
+
+                    <div class="pt-4">
+                        <button type="submit" id="submitBtn"
+                            class="w-full bg-bank-primary hover:bg-bank-secondary text-white font-medium py-2.5 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                            <span id="buttonText">Send Reminder</span>
+                            <svg id="loadingSpinner" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="response" class="text-center text-sm mt-4 hidden"></div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
-        document.getElementById('reminderForm').addEventListener('submit', function(e) {
+        // Set default values for date and time
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const paymentDate = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Set due date to 2 days from now
+            const dueDate = new Date();
+            dueDate.setDate(now.getDate() + 2);
+            const formattedDueDate = dueDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            // Set time in 12-hour format with AM/PM
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes} ${ampm}`;
+
+            // Set the hidden fields
+            document.getElementById('payment_date').value = paymentDate;
+            document.getElementById('payment_time').value = timeString;
+            document.getElementById('due_date').value = formattedDueDate;
+        });
+
+        // Form submission
+        document.getElementById('reminderForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const formData = new FormData(this);
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = document.getElementById('submitBtn');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
             const responseDiv = document.getElementById('response');
-            
-            fetch('send_reminder_email.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                responseDiv.style.display = 'block';
+
+            // Show loading state
+            submitBtn.disabled = true;
+            buttonText.textContent = 'Sending...';
+            loadingSpinner.classList.remove('hidden');
+            responseDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('send_reminder_email.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                // Show response
+                responseDiv.classList.remove('hidden');
                 if (data.success) {
-                    responseDiv.style.color = 'green';
-                    responseDiv.textContent = data.message;
-                    this.reset();
+                    responseDiv.className = 'text-center text-sm mt-4 text-bank-success';
+                    form.reset();
                 } else {
-                    responseDiv.style.color = 'red';
-                    responseDiv.textContent = data.message || 'An error occurred while sending the email.';
+                    responseDiv.className = 'text-center text-sm mt-4 text-bank-error';
                 }
-            })
-            .catch(error => {
+                responseDiv.textContent = data.message;
+
+            } catch (error) {
                 console.error('Error:', error);
-                responseDiv.style.display = 'block';
-                responseDiv.style.color = 'red';
+                responseDiv.className = 'text-center text-sm mt-4 text-bank-error';
                 responseDiv.textContent = 'An error occurred while sending the email.';
-            });
+                responseDiv.classList.remove('hidden');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                buttonText.textContent = 'Send Reminder';
+                loadingSpinner.classList.add('hidden');
+            }
         });
     </script>
 </body>
