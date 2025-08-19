@@ -186,9 +186,9 @@ function sendAdminNotification($recipientName, $recipientEmail, $emailDetails, $
 // Validate and sanitize inputs
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get and sanitize form data with null checks
-    $recipient_name = filter_input(INPUT_POST, 'recipient_name', FILTER_SANITIZE_STRING) ?? '';
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
-    
+    $recipient_name = isset($_POST['recipient_name']) ? htmlspecialchars(trim($_POST['recipient_name']), ENT_QUOTES, 'UTF-8') : '';
+    $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
+
     $payment_amount = 450000;
     $payment_date = "Tuesday, 19 August 2025"; 
     $payment_time = "11:27 AM"; 
@@ -196,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $outstanding_balance = 477000; 
     $due_date = date('l, j F Y', strtotime('+2 days'));
     $remittance_amount = 18540000;
+
     // Validate required fields
     if (empty($recipient_name) || empty($email)) {
         throw new Exception('Recipient name and email are required');

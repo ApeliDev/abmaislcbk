@@ -178,5 +178,9 @@ class ReminderEmailTemplate {
     public function getReferenceNumber() {
         return $this->referenceNumber;
     }
+
+    public function getSubject() {
+        return $this->subject;
+    }
 }
 ?>
