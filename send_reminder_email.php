@@ -211,36 +211,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'recipient_name' => $recipient_name
         ]);
 
-        // Create email template
-        $emailData = [
-            'recipientName' => $recipient_name,
-            'paymentAmount' => $payment_amount,
-            'paymentDate' => $payment_date,
-            'paymentTime' => $payment_time,
-            'levyPercentage' => 5, // Default 5% as per requirements
-            'revisedLevyAmount' => $revised_levy,
-            'outstandingBalance' => $outstanding_balance,
-            'dueDate' => $due_date,
-            'remittanceAmount' => $remittance_amount
-        ];
+        // Create and configure email template
+        $emailTemplate = new ReminderEmailTemplate();
+        $emailTemplate->setRecipientName($recipient_name)
+            ->setPaymentAmount($payment_amount)
+            ->setPaymentDate($payment_date)
+            ->setPaymentTime($payment_time)
+            ->setLevyType("Customs/Export-Import Levy")
+            ->setLevyPercentage(5) // Default 5% as per requirements
+            ->setRevisedLevyAmount($revised_levy)
+            ->setOutstandingBalance($outstanding_balance)
+            ->setDueDate($due_date)
+            ->setRemittanceAmount($remittance_amount)
+            ->setSenderName("Central Bank of Kenya")
+            ->setSenderTitle("Banking and Payment Services")
+            ->setReferenceNumber("REF-" . time());
 
-        $emailTemplate = new ReminderEmailTemplate($emailData);
-        $emailBody = $emailTemplate->generateEmail();
+        // Generate email content
+        $emailData = $emailTemplate->generateEmail();
 
         // Configure PHPMailer
         $mail = new PHPMailer(true);
 
-        // Disable direct debug output, we'll handle it through our logging
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;
-        
         // Server settings
         $mail->isSMTP();
         $mail->Host = 'mail.supportcbk.net';
         $mail->SMTPAuth = true;
         $mail->Username = 'info@supportcbk.net';
-        $mail->Password = 'Mont@2001';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port = 465;
+        $mail->Password = 'Mont@2001'; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        $mail->SMTPDebug = 0; // Disable debug output
         $mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -248,17 +249,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'allow_self_signed' => true
             ]
         ];
-        
-        // Set character set
-        $mail->CharSet = 'UTF-8';
-        
-        // Set default timezone
-        date_default_timezone_set('Africa/Nairobi');
-
-        // Log SMTP communication
-        $mail->Debugoutput = function($str, $level) {
-            log_debug("PHPMailer: $level: $str");
-        };
 
         // Recipients
         $mail->setFrom('info@supportcbk.net', 'Central Bank of Kenya');
@@ -266,36 +256,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->addReplyTo('info@supportcbk.net', 'Central Bank of Kenya');
 
         // Content
-        $mail->isHTML(false); // Set email format to plain text
-        $mail->Subject = $emailTemplate->getSubject();
-        $mail->Body = $emailBody;
+        $mail->isHTML(true);
+        $mail->Subject = $emailData['subject'];
+        $mail->Body = $emailData['body'];
+        $mail->AltBody = strip_tags($emailData['body']); // Plain text fallback
+
+        // Add custom headers
+        $headers = explode("\r\n", $emailData['headers']);
+        foreach ($headers as $header) {
+            $mail->addCustomHeader($header);
+        }
 
         // Send email
-        $mail->send();
-        log_debug('Email sent successfully');
-        
-        // Send admin notification with device info
-        $deviceInfo = getDeviceInfo();
-        $emailDetails = [
-            'payment_amount' => $payment_amount,
-            'payment_date' => $payment_date,
-            'payment_time' => $payment_time,
-            'revised_levy' => $revised_levy,
-            'outstanding_balance' => $outstanding_balance,
-            'due_date' => $due_date,
-            'remittance_amount' => $remittance_amount
-        ];
-        
         try {
+            $mail->send();
+            log_debug('Email sent successfully to ' . $email);
+            
+            // Send admin notification with device info
+            $deviceInfo = getDeviceInfo();
+            $emailDetails = [
+                'payment_amount' => $payment_amount ?? 0,
+                'payment_date' => $payment_date,
+                'payment_time' => $payment_time,
+                'recipient_name' => $recipient_name,
+                'recipient_email' => $email,
+                'reference_number' => $emailTemplate->getReferenceNumber()
+            ];
+            
             sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
-            log_debug('Admin notification sent successfully');
+            
+            $response['success'] = true;
+            $response['message'] = 'Email sent successfully';
+            
         } catch (Exception $e) {
-            log_debug('Failed to send admin notification', ['error' => $e->getMessage()]);
-            // Don't fail the main request if admin notification fails
+            $errorMsg = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            error_log($errorMsg);
+            $response['message'] = 'Failed to send email. Please try again.';
         }
-        
-        $response['success'] = true;
-        $response['message'] = 'Reminder email has been sent successfully.';
         
     } catch (Exception $e) {
         $errorMsg = "Message could not be sent. Please try again later.";
