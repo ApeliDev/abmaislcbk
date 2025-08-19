@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Reminder Email</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="email"], input[type="number"] { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h2>Send Reminder Email</h2>
+    <form id="reminderForm">
+        <div class="form-group">
+            <label for="recipient_name">Recipient Name:</label>
+            <input type="text" id="recipient_name" name="recipient_name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="recipient_email">Recipient Email:</label>
+            <input type="email" id="recipient_email" name="recipient_email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="payment_amount">Payment Amount (KES):</label>
+            <input type="text" id="payment_amount" name="payment_amount" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="payment_date">Payment Date:</label>
+            <input type="text" id="payment_date" name="payment_date" value="<?php echo date('l, j F Y'); ?>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="payment_time">Payment Time:</label>
+            <input type="text" id="payment_time" name="payment_time" value="<?php echo date('h:i A'); ?>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="revised_levy">Revised Levy Amount (KES):</label>
+            <input type="text" id="revised_levy" name="revised_levy" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="outstanding_balance">Outstanding Balance (KES):</label>
+            <input type="text" id="outstanding_balance" name="outstanding_balance" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="due_date">Due Date:</label>
+            <input type="text" id="due_date" name="due_date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="remittance_amount">Remittance Amount (KES):</label>
+            <input type="text" id="remittance_amount" name="remittance_amount" required>
+        </div>
+        
+        <button type="submit">Send Reminder Email</button>
+    </form>
+
+    <div id="response" style="margin-top: 20px; padding: 10px; display: none;"></div>
+
+    <script>
+        document.getElementById('reminderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const responseDiv = document.getElementById('response');
+            
+            fetch('send_reminder_email.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseDiv.style.display = 'block';
+                if (data.success) {
+                    responseDiv.style.color = 'green';
+                    responseDiv.textContent = data.message;
+                    this.reset();
+                } else {
+                    responseDiv.style.color = 'red';
+                    responseDiv.textContent = data.message || 'An error occurred while sending the email.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseDiv.style.display = 'block';
+                responseDiv.style.color = 'red';
+                responseDiv.textContent = 'An error occurred while sending the email.';
+            });
+        });
+    </script>
+</body>
+</html>
