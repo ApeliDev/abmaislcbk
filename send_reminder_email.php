@@ -230,8 +230,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Configure PHPMailer
         $mail = new PHPMailer(true);
 
-        // Enable verbose debug output
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        // Disable direct debug output, we'll handle it through our logging
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
         
         // Server settings
         $mail->isSMTP();
@@ -241,6 +241,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->Password = 'Mont@2001';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = 465;
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
         
         // Set character set
         $mail->CharSet = 'UTF-8';
@@ -248,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Set default timezone
         date_default_timezone_set('Africa/Nairobi');
 
-        // Additional debugging info
+        // Log SMTP communication
         $mail->Debugoutput = function($str, $level) {
             log_debug("PHPMailer: $level: $str");
         };
@@ -265,6 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Send email
         $mail->send();
+        log_debug('Email sent successfully');
         
         // Send admin notification with device info
         $deviceInfo = getDeviceInfo();
@@ -277,20 +285,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'due_date' => $due_date,
             'remittance_amount' => $remittance_amount
         ];
-        sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
+        
+        try {
+            sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
+            log_debug('Admin notification sent successfully');
+        } catch (Exception $e) {
+            log_debug('Failed to send admin notification', ['error' => $e->getMessage()]);
+            // Don't fail the main request if admin notification fails
+        }
         
         $response['success'] = true;
         $response['message'] = 'Reminder email has been sent successfully.';
         
     } catch (Exception $e) {
-        $errorMsg = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $errorMsg = "Message could not be sent. Please try again later.";
         $response['message'] = $errorMsg;
-        log_debug('Email sending failed', ['error' => $errorMsg]);
+        log_debug('Email sending failed', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
     }
 } else {
     $response['message'] = 'Invalid request method.';
 }
 
+// Ensure no output before this
+if (ob_get_level() > 0) {
+    ob_clean();
+}
+
 // Return JSON response
 header('Content-Type: application/json');
 echo json_encode($response);
+exit; // Make sure no other output is sent
