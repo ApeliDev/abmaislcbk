@@ -109,14 +109,33 @@ try {
 
         // Send admin notification with device info
         $deviceInfo = getDeviceInfo();
-        $emailDetails = [
+        
+        // Ensure all required fields have default values
+        $emailDetails = array_merge([
+            'payment_amount' => 0,
+            'payment_date' => date('l, j F Y'),
+            'payment_time' => date('h:i A'),
+            'revised_levy' => 0,
+            'outstanding_balance' => 0,
+            'due_date' => date('l, j F Y', strtotime('+2 days')),
+            'remittance_amount' => 0,
+            'levy_type' => 'Customs/Export-Import Levy',
+            'levy_percentage' => 5,
+            'reference_number' => 'N/A'
+        ], [
             'payment_amount' => $payment_amount,
             'payment_date' => $payment_date,
             'payment_time' => $payment_time,
             'recipient_name' => $recipient_name,
             'recipient_email' => $email,
-            'reference_number' => $emailTemplate->getReferenceNumber()
-        ];
+            'reference_number' => $emailTemplate->getReferenceNumber(),
+            'revised_levy' => $revised_levy,
+            'outstanding_balance' => $outstanding_balance,
+            'due_date' => $due_date,
+            'remittance_amount' => $remittance_amount,
+            'levy_type' => $levy_type,
+            'levy_percentage' => $levy_percentage
+        ]);
         
         sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
 
