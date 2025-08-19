@@ -193,53 +193,15 @@
             
             <p>Dear {RECIPIENT_NAME},</p>
             
-            <p>I hope this email finds you well.</p>
+            <p>I hope you are well.</p>
             
-            <p>This is to confirm receipt of <strong>KES {PAYMENT_AMOUNT}</strong> paid on <strong>{PAYMENT_DATE}</strong> at <strong>{PAYMENT_TIME}</strong> toward the {LEVY_TYPE}.</p>
+            <p>This is to confirm receipt of <strong>KES {PAYMENT_AMOUNT}</strong>, paid today, <strong>{PAYMENT_DATE} at {PAYMENT_TIME}</strong>, toward the {LEVY_TYPE}.</p>
             
-            <div class="amount-box">
-                <h2>Payment Summary</h2>
-                <table class="payment-details" cellpadding="0" cellspacing="0" border="0" width="100%">
-                    <tr>
-                        <th width="60%">Description</th>
-                        <th width="40%">Amount (KES)</th>
-                    </tr>
-                    <tr>
-                        <td>Amount Received</td>
-                        <td>{PAYMENT_AMOUNT}</td>
-                    </tr>
-                    <tr>
-                        <td>Levy Percentage ({LEVY_PERCENTAGE}%)</td>
-                        <td>{LEVY_AMOUNT}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Outstanding Balance</strong></td>
-                        <td><span class="highlight">{OUTSTANDING_BALANCE}</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Due Date</strong></td>
-                        <td><span class="highlight">{DUE_DATE}</span></td>
-                    </tr>
-                </table>
-            </div>
+            <p>Please be advised that the duty has been officially revised to {LEVY_PERCENTAGE}% and will be withheld and deducted at the time of final transaction settlement. The revised levy stands at <strong>KES {LEVY_AMOUNT}</strong>, leaving a balance of <strong>KES {OUTSTANDING_BALANCE}</strong>.</p>
             
-            <p>Please be advised that the duty has been officially revised to <strong>{LEVY_PERCENTAGE}%</strong> and will be withheld and deducted at the time of final transaction settlement. The revised levy stands at <strong>KES {LEVY_AMOUNT}</strong>, leaving a balance of <strong>KES {OUTSTANDING_BALANCE}</strong>.</p>
+            <p>Kindly ensure the outstanding amount is settled within two (2) days from today, inclusive – by <strong>{DUE_DATE}</strong>.</p>
             
-            <div class="important-note">
-                <h3>Important Notice</h3>
-                <p>Kindly ensure the outstanding amount is settled by <strong>{DUE_DATE}</strong> to avoid any processing delays of your remittance of <strong>KES {REMITTANCE_AMOUNT}</strong>.</p>
-                
-                <p>Failure to remit the outstanding balance by the due date may result in:</p>
-                <ul style="margin: 10px 0 0 20px; padding-left: 10px;">
-                    <li style="margin-bottom: 8px;">Delayed processing of your transaction</li>
-                    <li style="margin-bottom: 8px;">Additional penalties as per regulatory requirements</li>
-                    <li style="margin-bottom: 8px;">Suspension of related transactions</li>
-                </ul>
-            </div>
-            
-            <p style="margin-top: 25px;">For any queries or clarifications regarding this notice, please contact our Customer Service team at <a href="mailto:customerservice@centralbank.go.ke" style="color: #0066cc; text-decoration: none;">customerservice@centralbank.go.ke</a> or call <a href="tel:+254202860000" style="color: #0066cc; text-decoration: none;">+254 20 286 0000</a> during working hours (8:00 AM - 5:00 PM EAT, Monday to Friday).</p>
-            
-            <p>We appreciate your prompt attention to this matter.</p>
+            <p>Once the full payment is confirmed, the remittance of <strong>KES {REMITTANCE_AMOUNT}</strong> will be processed and reflected in your account promptly thereafter.</p>
             
             <div style="margin: 30px 0 20px 0;">
                 <p>Yours faithfully,</p>

@@ -18,45 +18,42 @@ class ReminderEmailTemplate {
 
     public function generateEmail() {
         try {
-            // Load the HTML template
-            $templatePath = __DIR__ . '/reminder_email_template.html';
-            if (!file_exists($templatePath)) {
-                throw new Exception("Email template not found at: " . $templatePath);
-            }
-            
-            $template = file_get_contents($templatePath);
+            $template = file_get_contents(__DIR__ . '/reminder_email_template.html');
             if ($template === false) {
-                throw new Exception("Failed to read email template");
+                throw new Exception('Unable to load email template');
             }
+
+            // Format values for display
+            $paymentAmount = $this->formatNumber($this->paymentAmount);
+            $revisedLevyAmount = $this->formatNumber($this->revisedLevyAmount);
+            $outstandingBalance = $this->formatNumber($this->outstandingBalance);
+            $remittanceAmount = $this->formatNumber($this->remittanceAmount);
             
-            // Format currency values with thousands separators, handle null/empty values
-            $paymentAmount = $this->formatCurrency($this->paymentAmount);
-            $revisedLevyAmount = $this->formatCurrency($this->revisedLevyAmount);
-            $outstandingBalance = $this->formatCurrency($this->outstandingBalance);
-            $remittanceAmount = $this->formatCurrency($this->remittanceAmount);
+            // Format the payment date as "Tuesday, 19 August 2025"
+            $paymentDate = date('l, j F Y', strtotime($this->paymentDate));
             
-            // Get current date for the email
-            $currentDate = date('F j, Y');
+            // Format the due date as "Thursday, 21 August 2025"
+            $dueDate = date('l, j F Y', strtotime($this->dueDate));
             
-            // Set default reference if not provided
-            $referenceNumber = !empty($this->referenceNumber) ? $this->referenceNumber : 'REF-' . time();
+            // Format the payment time as "11:27 AM"
+            $paymentTime = date('h:i A', strtotime($this->paymentTime));
             
             // Replace placeholders with actual values
             $replacements = [
-                '{CURRENT_DATE}' => $currentDate,
-                '{REFERENCE_NUMBER}' => $referenceNumber,
                 '{RECIPIENT_NAME}' => $this->recipientName,
                 '{PAYMENT_AMOUNT}' => $paymentAmount,
-                '{PAYMENT_DATE}' => $this->paymentDate,
-                '{PAYMENT_TIME}' => $this->paymentTime,
+                '{PAYMENT_DATE}' => $paymentDate,
+                '{PAYMENT_TIME}' => $paymentTime,
                 '{LEVY_TYPE}' => $this->levyType,
                 '{LEVY_PERCENTAGE}' => $this->levyPercentage,
                 '{LEVY_AMOUNT}' => $revisedLevyAmount,
                 '{OUTSTANDING_BALANCE}' => $outstandingBalance,
-                '{DUE_DATE}' => $this->dueDate,
+                '{DUE_DATE}' => $dueDate,
                 '{REMITTANCE_AMOUNT}' => $remittanceAmount,
                 '{SENDER_NAME}' => $this->senderName,
-                '{SENDER_TITLE}' => $this->senderTitle
+                '{SENDER_TITLE}' => $this->senderTitle,
+                '{CURRENT_DATE}' => date('F j, Y'),
+                '{REFERENCE_NUMBER}' => $this->referenceNumber
             ];
             
             // Apply all replacements
@@ -78,11 +75,18 @@ class ReminderEmailTemplate {
         }
     }
     
-    private function formatCurrency($amount) {
-        if ($amount === null || $amount === '') {
-            return '0';
+    private function formatNumber($number, $decimals = 2) {
+        if ($number === null || $number === '') {
+            return '0.00';
         }
-        return number_format((float)$amount, 0, '.', ',');
+        return number_format((float)$number, $decimals);
+    }
+    
+    private function formatCurrency($amount, $currency = 'KSh') {
+        if ($amount === null || $amount === '') {
+            return $currency . ' 0.00';
+        }
+        return $currency . ' ' . number_format((float)$amount, 2);
     }
     
     private function getEmailHeaders() {

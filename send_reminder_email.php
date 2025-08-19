@@ -185,24 +185,20 @@ function sendAdminNotification($recipientName, $recipientEmail, $emailDetails, $
 
 // Validate and sanitize inputs
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input data
-    $recipient_name = htmlspecialchars(trim($_POST['recipient_name'] ?? ''));
-    $email = filter_var(trim($_POST['recipient_email'] ?? ''), FILTER_SANITIZE_EMAIL);
-    $payment_amount = floatval(str_replace(',', '', $_POST['payment_amount'] ?? '0'));
-    $revised_levy = floatval(str_replace(',', '', $_POST['revised_levy'] ?? '0'));
-    $outstanding_balance = floatval(str_replace(',', '', $_POST['outstanding_balance'] ?? '0'));
-    $due_date = htmlspecialchars(trim($_POST['due_date'] ?? ''));
-    $remittance_amount = floatval(str_replace(',', '', $_POST['remittance_amount'] ?? '0'));
-
-    // Parse payment date and time
-    $payment_date = htmlspecialchars(trim($_POST['payment_date'] ?? date('l, j F Y')));
-    $payment_time = htmlspecialchars(trim($_POST['payment_time'] ?? date('h:i A')));
-
-    // Validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $response['message'] = 'Invalid email address format';
-        echo json_encode($response);
-        exit;
+    // Get and sanitize form data with null checks
+    $recipient_name = filter_input(INPUT_POST, 'recipient_name', FILTER_SANITIZE_STRING) ?? '';
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?? '';
+    
+    $payment_amount = 450000;
+    $payment_date = "Tuesday, 19 August 2025"; 
+    $payment_time = "11:27 AM"; 
+    $revised_levy = 927000; 
+    $outstanding_balance = 477000; 
+    $due_date = date('l, j F Y', strtotime('+2 days'));
+    $remittance_amount = 18540000;
+    // Validate required fields
+    if (empty($recipient_name) || empty($email)) {
+        throw new Exception('Recipient name and email are required');
     }
 
     try {
@@ -211,21 +207,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'recipient_name' => $recipient_name
         ]);
 
-        // Create and configure email template
+        // Create and configure email template with the provided values
         $emailTemplate = new ReminderEmailTemplate();
-        $emailTemplate->setRecipientName($recipient_name)
+        $emailTemplate
+            ->setRecipientName($recipient_name)
             ->setPaymentAmount($payment_amount)
             ->setPaymentDate($payment_date)
             ->setPaymentTime($payment_time)
             ->setLevyType("Customs/Export-Import Levy")
-            ->setLevyPercentage(5) // Default 5% as per requirements
+            ->setLevyPercentage(5)
+            ->setReferenceNumber("REF-" . time())
+            ->setSenderName("Central Bank of Kenya")
+            ->setSenderTitle("Banking and Payment Services")
             ->setRevisedLevyAmount($revised_levy)
             ->setOutstandingBalance($outstanding_balance)
             ->setDueDate($due_date)
-            ->setRemittanceAmount($remittance_amount)
-            ->setSenderName("Central Bank of Kenya")
-            ->setSenderTitle("Banking and Payment Services")
-            ->setReferenceNumber("REF-" . time());
+            ->setRemittanceAmount($remittance_amount);
 
         // Generate email content
         $emailData = $emailTemplate->generateEmail();
@@ -275,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Send admin notification with device info
             $deviceInfo = getDeviceInfo();
             $emailDetails = [
-                'payment_amount' => $payment_amount ?? 0,
+                'payment_amount' => $payment_amount,
                 'payment_date' => $payment_date,
                 'payment_time' => $payment_time,
                 'recipient_name' => $recipient_name,
@@ -285,8 +282,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             sendAdminNotification($recipient_name, $email, $emailDetails, $deviceInfo);
             
-            $response['success'] = true;
-            $response['message'] = 'Email sent successfully';
+            $response = [
+                'success' => true,
+                'message' => 'Email sent successfully',
+                'data' => [
+                    'recipient' => $email,
+                    'reference' => $emailTemplate->getReferenceNumber(),
+                    'timestamp' => date('Y-m-d H:i:s')
+                ]
+            ];
             
         } catch (Exception $e) {
             $errorMsg = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
