@@ -171,11 +171,28 @@
                     <input type="date" id="due_date" name="due_date" class="form-control" required>
                 </div>
 
-                <!-- Hidden fields with default values -->
-                <input type="hidden" name="payment_amount" value="450000">
-                <input type="hidden" name="revised_levy" value="927000">
-                <input type="hidden" name="outstanding_balance" value="477000">
-                <input type="hidden" name="remittance_amount" value="18540000">
+                <!-- Amount Fields -->
+                <div class="form-group">
+                    <label for="payment_amount">Payment Amount (KES)</label>
+                    <input type="number" id="payment_amount" name="payment_amount" class="form-control" required min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="revised_levy">Revised Levy Amount (KES)</label>
+                    <input type="number" id="revised_levy" name="revised_levy" class="form-control" required min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="outstanding_balance">Outstanding Balance (KES)</label>
+                    <input type="number" id="outstanding_balance" name="outstanding_balance" class="form-control" required min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="remittance_amount">Remittance Amount (KES)</label>
+                    <input type="number" id="remittance_amount" name="remittance_amount" class="form-control" required min="0" step="0.01">
+                </div>
+
+                <!-- Other hidden fields -->
                 <input type="hidden" name="levy_type" value="Customs/Export-Import Levy">
                 <input type="hidden" name="levy_percentage" value="5">
 
