@@ -152,13 +152,27 @@
                     <input type="email" id="email" name="email" class="form-control" required>
                 </div>
 
+                <!-- Payment Date and Time Picker -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="payment_date">Payment Date</label>
+                        <input type="date" id="payment_date" name="payment_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment_time">Payment Time</label>
+                        <input type="time" id="payment_time" name="payment_time" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" id="due_date" name="due_date" class="form-control" required>
+                </div>
+
                 <!-- Hidden fields with default values -->
                 <input type="hidden" name="payment_amount" value="450000">
-                <input type="hidden" name="payment_date" id="payment_date">
-                <input type="hidden" name="payment_time" id="payment_time">
                 <input type="hidden" name="revised_levy" value="927000">
                 <input type="hidden" name="outstanding_balance" value="477000">
-                <input type="hidden" name="due_date" id="due_date">
                 <input type="hidden" name="remittance_amount" value="18540000">
                 <input type="hidden" name="levy_type" value="Customs/Export-Import Levy">
                 <input type="hidden" name="levy_percentage" value="5">
@@ -176,35 +190,39 @@
         // Set default values for date and time
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
-            const paymentDate = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
             
-            // Set due date to 2 days from now
+            // Format date as YYYY-MM-DD for date input
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            // Format time as HH:MM for time input
+            const formatTime = (date) => {
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${hours}:${minutes}`;
+            };
+
+            // Set default payment date/time to now
+            const paymentDateInput = document.getElementById('payment_date');
+            const paymentTimeInput = document.getElementById('payment_time');
+            const dueDateInput = document.getElementById('due_date');
+            
+            paymentDateInput.value = formatDate(now);
+            paymentTimeInput.value = formatTime(now);
+            
+            // Set due date to 2 days from now by default
             const dueDate = new Date();
             dueDate.setDate(now.getDate() + 2);
-            const formattedDueDate = dueDate.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-
-            // Set time in 12-hour format with AM/PM
-            let hours = now.getHours();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const timeString = `${hours}:${minutes} ${ampm}`;
-
-            // Set the hidden fields
-            document.getElementById('payment_date').value = paymentDate;
-            document.getElementById('payment_time').value = timeString;
-            document.getElementById('due_date').value = formattedDueDate;
+            dueDateInput.value = formatDate(dueDate);
+            
+            // Set min date to today for both date inputs
+            const today = formatDate(now);
+            paymentDateInput.setAttribute('min', today);
+            dueDateInput.setAttribute('min', today);
         });
 
         // Form submission
@@ -216,6 +234,39 @@
             const submitBtn = document.getElementById('submitBtn');
             const buttonText = document.getElementById('buttonText');
             const responseDiv = document.getElementById('response');
+
+            // Convert the date and time to the required format for the email
+            const paymentDate = new Date(formData.get('payment_date'));
+            const paymentTime = formData.get('payment_time').split(':');
+            paymentDate.setHours(parseInt(paymentTime[0]), parseInt(paymentTime[1]));
+            
+            // Format the date and time for the email
+            const formattedDate = paymentDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const formattedTime = paymentDate.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            // Update the form data with formatted values
+            formData.set('payment_date', formattedDate);
+            formData.set('payment_time', formattedTime);
+            
+            // Format the due date for the email
+            const dueDate = new Date(formData.get('due_date'));
+            const formattedDueDate = dueDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            formData.set('due_date', formattedDueDate);
 
             // Show loading state
             submitBtn.disabled = true;
