@@ -157,10 +157,12 @@
                     <div class="form-group">
                         <label for="payment_date">Payment Date</label>
                         <input type="date" id="payment_date" name="payment_date" class="form-control" required>
+                        <small class="text-gray-500 text-sm">Select the actual payment date</small>
                     </div>
                     <div class="form-group">
                         <label for="payment_time">Payment Time</label>
                         <input type="time" id="payment_time" name="payment_time" class="form-control" required>
+                        <small class="text-gray-500 text-sm">Select the actual payment time</small>
                     </div>
                 </div>
 
@@ -219,10 +221,8 @@
             dueDate.setDate(now.getDate() + 2);
             dueDateInput.value = formatDate(dueDate);
             
-            // Set min date to today for both date inputs
-            const today = formatDate(now);
-            paymentDateInput.setAttribute('min', today);
-            dueDateInput.setAttribute('min', today);
+            // Remove min date restriction to allow past dates
+            paymentDateInput.removeAttribute('min');
         });
 
         // Form submission

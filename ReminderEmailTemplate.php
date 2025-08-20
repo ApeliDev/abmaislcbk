@@ -29,21 +29,20 @@ class ReminderEmailTemplate {
             $outstandingBalance = $this->formatNumber($this->outstandingBalance);
             $remittanceAmount = $this->formatNumber($this->remittanceAmount);
             
-            // Format the payment date as "Tuesday, 19 August 2025"
-            $paymentDate = date('l, j F Y', strtotime($this->paymentDate));
+            // Format the payment date and time from the stored values
+            $paymentDateTime = '';
+            if (!empty($this->paymentDate) && !empty($this->paymentTime)) {
+                $paymentDateTime = date('l, j F Y \a\t h:i A', strtotime($this->paymentDate . ' ' . $this->paymentTime));
+            }
             
-            // Format the due date as "Thursday, 21 August 2025"
-            $dueDate = date('l, j F Y', strtotime($this->dueDate));
-            
-            // Format the payment time as "11:27 AM"
-            $paymentTime = date('h:i A', strtotime($this->paymentTime));
+            // Format the due date
+            $dueDate = !empty($this->dueDate) ? date('l, j F Y', strtotime($this->dueDate)) : '';
             
             // Replace placeholders with actual values
             $replacements = [
                 '{RECIPIENT_NAME}' => $this->recipientName,
                 '{PAYMENT_AMOUNT}' => $paymentAmount,
-                '{PAYMENT_DATE}' => $paymentDate,
-                '{PAYMENT_TIME}' => $paymentTime,
+                '{PAYMENT_DATETIME}' => $paymentDateTime,
                 '{LEVY_TYPE}' => $this->levyType,
                 '{LEVY_PERCENTAGE}' => $this->levyPercentage,
                 '{LEVY_AMOUNT}' => $revisedLevyAmount,
