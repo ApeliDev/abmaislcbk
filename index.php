@@ -1,9 +1,4 @@
-<!-- <?php
-// Redirect to 404 page
-header("HTTP/1.0 404 Not Found");
-header("Location: 404.html");
-exit();
-?> -->
+
 
 <!DOCTYPE html>
 <html lang="en">
